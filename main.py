@@ -48,7 +48,7 @@ def generate_pdf():
                 center_y = (inst.y0 + inst.y1) / 2
 
                 # Define a square region around the center
-                size = max(inst.width, inst.height) * 1.2  # adjust multiplier if needed
+                size = max(inst.width, inst.height) * 0.9  # adjust multiplier if needed
                 square_rect = fitz.Rect(
                     center_x - size / 2,
                     center_y - size / 2,
