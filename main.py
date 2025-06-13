@@ -41,9 +41,7 @@ def generate_pdf():
         inserted = False
 
         for page in doc:
-            text_instances = page.search_for("{{ 
-                                            QR_CO
-                                             DE }}")
+            text_instances = page.search_for("{{ QR_CODE }}")
             for inst in text_instances:
                 page.insert_image(inst, filename=qr_temp_path)
                 inserted = True
