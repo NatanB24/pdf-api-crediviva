@@ -43,7 +43,20 @@ def generate_pdf():
         for page in doc:
             text_instances = page.search_for("{{ QR_CODE }}")
             for inst in text_instances:
-                page.insert_image(inst, filename=qr_temp_path)
+                # Center of the detected placeholder text
+                center_x = (inst.x0 + inst.x1) / 2
+                center_y = (inst.y0 + inst.y1) / 2
+
+                # Define a square region around the center
+                size = max(inst.width, inst.height) * 2.0  # adjust multiplier if needed
+                square_rect = fitz.Rect(
+                    center_x - size / 2,
+                    center_y - size / 2,
+                    center_x + size / 2,
+                    center_y + size / 2
+                )
+
+                page.insert_image(square_rect, filename=qr_temp_path)
                 inserted = True
 
         if not inserted:
@@ -53,6 +66,7 @@ def generate_pdf():
         doc.close()
 
         return send_file(output_pdf_path, as_attachment=True)
+
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
